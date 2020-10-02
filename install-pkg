@@ -19,7 +19,9 @@ if [[ ! -z "$PACKAGE" ]]; then
 
         prepare_cache
         cd "$CACHEDIR/$PACKAGE"
-        makepkg -sif
+        makepkg -sif || exit
+
+        [[ -f "POSTINSTALL" ]] && echo "Running POSTINSTALL script..." && source "POSTINSTALL"
     else
         echo "ERROR: Could not find package $PACKAGEDIR"
     fi

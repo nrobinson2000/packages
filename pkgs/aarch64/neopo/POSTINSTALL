@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Install neopo dependencies
+neopo install
+
+# Fix and install particle-cli
+export GODE_DEBUG=info  # This is optional
+neopo particle # This will fail
+
+# Replace node executable
+NODE_BINARY="$(find $HOME/.particle/node-v*/bin/node)"
+mv "$NODE_BINARY" "${NODE_BINARY}.old"
+ln -s $(which node) "$NODE_BINARY"
+
+# Complete particle-cli install and setup non-root USB access
+neopo particle configure usb
