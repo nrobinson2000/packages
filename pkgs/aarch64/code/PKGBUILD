@@ -1,0 +1,15 @@
+pkgname=code
+pkgver=1.45.0
+pkgrel=1
+pkgdesc='Visual Studio Code (vscode): Editor for building and debugging modern web and cloud applications'
+arch=('aarch64')
+url="https://code.visualstudio.com/"
+depends=(libxkbfile gnupg gtk3 libsecret nss gcc-libs libnotify libxss glibc lsof)
+
+source=("https://packagecloud.io/headmelted/codebuilds/packages/debian/stretch/code-oss_1.45.0-1586135971_arm64.deb/download.deb")
+noextract=("download.deb")
+sha256sums=('99e587ef3845c43b74cb211176fa22672c7a32bad07d849806107eaadd09a0f4')
+
+package() {
+    bsdtar -O -xf "download.deb" data.tar.xz | bsdtar -C "${pkgdir}" -xJf -
+}
