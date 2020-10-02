@@ -19,9 +19,3 @@ package() {
     install -Dm 644 "neopo/neopo-completion" "$pkgdir/usr/share/bash-completion/completions/neopo"
     install -Dm 644 "LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
-
-# On aarch64, the node executable provided by particle-cli wrapper is actually armv7l
-# Hack! Create a link to the current installed version of node:
-
-# mv ~/.particle/node-v12*/bin/node ~/.particle/node-v12*/bin/node.old
-# ln -s $(which node) ~/.particle/node-v12*/bin/node
