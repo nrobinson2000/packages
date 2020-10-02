@@ -2,7 +2,7 @@
 
 ARCH="$(uname -m)"
 PACKAGE="$1"
-PACKAGEDIR="$ARCH/$PACKAGE"
+PACKAGEDIR="pkgs/$ARCH/$PACKAGE"
 
 if [[ ! -z "$PACKAGE" ]]; then
 
