@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ARCH="$(uname -m)"
+PACKAGE="$1"
+PACKAGEDIR="$ARCH/$PACKAGE"
+
+if [[ ! -z "$PACKAGE" ]]; then
+
+    if [[ -d "$PACKAGEDIR" ]]; then
+        echo -e "Found package $PACKAGEDIR\nTo begin install press ENTER..."
+        read
+        
+        cd "$PACKAGEDIR"
+        makepkg -sif
+    
+    else
+        echo "ERROR: Could not find package $PACKAGEDIR"
+    fi
+
+else
+    echo "ERROR: You must specify a package to install!"
+    echo "Example:"
+    echo "  $0 neopo"
+fi
