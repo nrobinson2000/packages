@@ -3,16 +3,23 @@
 ARCH="$(uname -m)"
 PACKAGE="$1"
 PACKAGEDIR="pkgs/$ARCH/$PACKAGE"
+CACHEDIR="cache"
+
+prepare_cache() {
+    mkdir -p "$CACHEDIR"
+    rm -rf "$CACHEDIR/$PACKAGE"
+    cp -r "$PACKAGEDIR" "$CACHEDIR"
+}
 
 if [[ ! -z "$PACKAGE" ]]; then
 
     if [[ -d "$PACKAGEDIR" ]]; then
         echo -e "Found package $PACKAGEDIR\nTo begin install press ENTER..."
         read
-        
-        cd "$PACKAGEDIR"
+
+        prepare_cache
+        cd "$CACHEDIR/$PACKAGE"
         makepkg -sif
-    
     else
         echo "ERROR: Could not find package $PACKAGEDIR"
     fi
