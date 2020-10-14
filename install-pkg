@@ -2,7 +2,7 @@
 
 ARCH="$(uname -m)"
 PACKAGE="$1"
-PACKAGEDIR="pkgs/$ARCH/$PACKAGE"
+PACKAGEDIR="pkgs/$PACKAGE"
 CACHEDIR="cache"
 
 prepare_cache() {
