@@ -1,0 +1,45 @@
+#!/bin/bash
+
+ARCH="$(uname -m)"
+PACKAGE="$1"
+export CARCH="${2:-$ARCH}"
+
+PACKAGEDIR="pkgs/$PACKAGE"
+CACHEDIR="build"
+PACKAGE_CACHE="$CACHEDIR/$PACKAGE"
+TARGETDIR="target"
+
+prepare_cache() {
+    mkdir -p "$CACHEDIR"
+    rm -rf "${PACKAGE_CACHE:?}"
+    cp -r "$PACKAGEDIR" "$CACHEDIR"
+}
+
+move_target() {
+    mkdir -p "$TARGETDIR"
+    TARGET="$(find "$PACKAGE_CACHE" -name "*${CARCH}.pkg.tar.xz")"
+   
+    echo "Copying $TARGET to $TARGETDIR/"
+    cp "$TARGET" "$TARGETDIR"
+}
+
+if [[ -n "$PACKAGE" ]]; then
+
+    if [[ -d "$PACKAGEDIR" ]]; then
+        prepare_cache
+        pushd "$PACKAGE_CACHE" || exit
+        makepkg -f || exit
+	popd || exit
+
+	move_target
+    else
+        echo "ERROR: Could not find package $PACKAGEDIR"
+        exit
+    fi
+
+else
+    echo "ERROR: You must specify a package to build!"
+    echo "Example:"
+    echo "  $0 neopo $CARCH"
+    exit
+fi

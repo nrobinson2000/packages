@@ -1,33 +1,10 @@
 #!/bin/bash
 
-ARCH="$(uname -m)"
-PACKAGE="$1"
-PACKAGEDIR="pkgs/$PACKAGE"
-CACHEDIR="cache"
+source build-pkg
+echo "$TARGETDIR/$TARGET"
 
-prepare_cache() {
-    mkdir -p "$CACHEDIR"
-    rm -rf "$CACHEDIR/$PACKAGE"
-    cp -r "$PACKAGEDIR" "$CACHEDIR"
-}
+echo "Installing package with pacman -U"
+sudo pacman -U "$TARGETDIR/$TARGET"
 
-if [[ ! -z "$PACKAGE" ]]; then
-
-    if [[ -d "$PACKAGEDIR" ]]; then
-        echo -e "Found package $PACKAGEDIR\nTo begin install press ENTER..."
-        read
-
-        prepare_cache
-        cd "$CACHEDIR/$PACKAGE"
-        makepkg -sif || exit
-
-        [[ -f "POSTINSTALL" ]] && echo "Running POSTINSTALL script..." && source "POSTINSTALL"
-    else
-        echo "ERROR: Could not find package $PACKAGEDIR"
-    fi
-
-else
-    echo "ERROR: You must specify a package to install!"
-    echo "Example:"
-    echo "  $0 neopo"
-fi
+pushd "$PACKAGE_CACHE" || exit
+[[ -f "POSTINSTALL" ]] && echo "Running POSTINSTALL script..." && source "POSTINSTALL"

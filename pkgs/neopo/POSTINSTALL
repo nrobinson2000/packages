@@ -4,9 +4,9 @@ ARCH="$(uname -m)"
 
 # Get debugger working in Workbench:
 if [[ "$ARCH" == "x86_64" ]]; then
-    sudo pacman -S yay
+    sudo pacman -S --needed yay
     gpg --keyserver hkp://keys.gnupg.net:80 --recv-keys C52048C0C0748FEE227D47A2702353E0F7E48EDB
-    yay -S lib32-ncurses5-compat-libs
+    yay -S --needed lib32-ncurses5-compat-libs
 fi
 
 # Install particle packages
