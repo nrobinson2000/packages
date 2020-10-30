@@ -1,10 +1,10 @@
 #!/bin/bash
 
 source build-pkg
-echo "$TARGETDIR/$TARGET"
+echo "$TARGETDIR/$(basename $TARGET)"
 
 echo "Installing package with pacman -U"
-sudo pacman -U "$TARGETDIR/$TARGET"
+sudo pacman -U "$TARGETDIR/$(basename $TARGET)"
 
 pushd "$PACKAGE_CACHE" || exit
 [[ -f "POSTINSTALL" ]] && echo "Running POSTINSTALL script..." && source "POSTINSTALL"
