@@ -28,7 +28,7 @@ if [[ -n "$PACKAGE" ]]; then
     if [[ -d "$PACKAGEDIR" ]]; then
         prepare_cache
         pushd "$PACKAGE_CACHE" || exit
-        makepkg -f || exit
+        makepkg -sf || exit
 	popd || exit
 
 	move_target
